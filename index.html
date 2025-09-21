@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SalesPlatform.org - The Sales Platform for Organizations</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
+        header { text-align: center; background: #007bff; color: white; padding: 20px; }
+        .dashboard { display: flex; justify-content: space-around; margin: 20px 0; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; width: 200px; }
+        .metric { font-size: 24px; font-weight: bold; color: #007bff; }
+        #chartContainer { width: 80%; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>SalesPlatform.org</h1>
+        <p>The sales platform for organizations</p>
+    </header>
+    
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Deals Closed</h3>
+            <div class="metric">5</div>
+        </div>
+        <div class="card">
+            <h3>Monthly Revenue</h3>
+            <div class="metric">$10,000</div>
+        </div>
+        <div class="card">
+            <h3>Active Prospects</h3>
+            <div class="metric">25</div>
+        </div>
+    </div>
+    
+    <div id="chartContainer">
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                datasets: [{
+                    label: 'Deals Closed',
+                    data: [2, 3, 1, 4, 5],
+                    backgroundColor: '#007bff'
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
