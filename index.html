@@ -3,23 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SalesPlatform.org - The Sales Platform for Organizations</title>
+    <title>salesplatform.org - The sales platform for organizations</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; }
-        header { text-align: center; background: #007bff; color: white; padding: 20px; }
-        .dashboard { display: flex; justify-content: space-around; margin: 20px 0; }
-        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; width: 200px; }
-        .metric { font-size: 24px; font-weight: bold; color: #007bff; }
-        #chartContainer { width: 80%; margin: 20px auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6;
+        }
+        header { 
+            text-align: center; 
+            background: #1a1a1a; 
+            color: #ffffff; 
+            padding: 40px 20px; 
+            border-bottom: 1px solid #333333;
+        }
+        header h1 { 
+            font-size: 2.5em; 
+            margin: 0 0 10px 0; 
+            text-transform: lowercase; 
+            letter-spacing: 1px;
+        }
+        header p { 
+            font-size: 1.1em; 
+            margin: 0; 
+            opacity: 0.8;
+        }
+        .dashboard { 
+            display: flex; 
+            justify-content: space-around; 
+            margin: 40px 20px; 
+            flex-wrap: wrap;
+        }
+        .card { 
+            background: #333333; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
+            text-align: center; 
+            width: 200px; 
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        .card h3 { 
+            font-size: 1em; 
+            margin: 0 0 10px 0; 
+            color: #cccccc;
+        }
+        .metric { 
+            font-size: 2em; 
+            font-weight: bold; 
+            color: #ffffff; 
+        }
+        #chartContainer { 
+            width: 90%; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            background: #333333; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        canvas {
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .dashboard { justify-content: center; }
+            .card { width: 100%; max-width: 300px; }
+            header h1 { font-size: 2em; }
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>SalesPlatform.org</h1>
+        <h1>salesplatform.org</h1>
         <p>The sales platform for organizations</p>
     </header>
-    
+   
     <div class="dashboard">
         <div class="card">
             <h3>Total Deals Closed</h3>
@@ -34,11 +100,10 @@
             <div class="metric">25</div>
         </div>
     </div>
-    
+   
     <div id="chartContainer">
         <canvas id="salesChart"></canvas>
     </div>
-
     <script>
         const ctx = document.getElementById('salesChart').getContext('2d');
         const salesChart = new Chart(ctx, {
@@ -48,12 +113,21 @@
                 datasets: [{
                     label: 'Deals Closed',
                     data: [2, 3, 1, 4, 5],
-                    backgroundColor: '#007bff'
+                    backgroundColor: '#666666'
                 }]
             },
             options: {
                 scales: {
                     y: { beginAtZero: true }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff' }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#ffffff' } },
+                        y: { ticks: { color: '#ffffff' } }
+                    }
                 }
             }
         });
