@@ -13,17 +13,21 @@
             margin: 0; 
             padding: 0; 
             line-height: 1.6;
+            overflow-x: hidden;
         }
         header { 
-            text-align: center; 
             background: #1a1a1a; 
             color: #ffffff; 
-            padding: 40px 20px; 
+            padding: 20px; 
             border-bottom: 1px solid #333333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
         header h1 { 
             font-size: 2.5em; 
-            margin: 0 0 10px 0; 
+            margin: 0; 
             text-transform: lowercase; 
             letter-spacing: 1px;
         }
@@ -31,6 +35,75 @@
             font-size: 1.1em; 
             margin: 0; 
             opacity: 0.8;
+        }
+        .nav-toggle {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: #666666;
+            border: none;
+            color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .nav-toggle:hover {
+            background: #888888;
+        }
+        .nav-panel {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #1a1a1a;
+            border-right: 1px solid #333333;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-panel.open {
+            left: 0;
+        }
+        .nav-panel .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #cccccc;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .nav-panel .close-btn:hover {
+            color: #ffffff;
+        }
+        .nav-panel ul {
+            list-style: none;
+            padding: 20px;
+            margin: 40px 0 0 0;
+        }
+        .nav-panel li {
+            margin: 15px 0;
+        }
+        .nav-panel a {
+            color: #cccccc;
+            text-decoration: none;
+            font-size: 1.2em;
+            display: block;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s, color 0.2s;
+        }
+        .nav-panel a:hover {
+            background: #333333;
+            color: #ffffff;
+        }
+        .nav-panel a.active {
+            background: #666666;
+            color: #ffffff;
+            font-weight: bold;
         }
         .dashboard { 
             display: flex; 
@@ -108,15 +181,26 @@
             .dashboard { justify-content: center; }
             .card { width: 100%; max-width: 300px; }
             header h1 { font-size: 2em; }
+            .nav-panel { width: 200px; left: -200px; }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>salesplatform.org</h1>
-        <p>The sales platform for organizations</p>
+        <button class="nav-toggle" onclick="toggleNav()">☰ Menu</button>
+        <div style="text-align: center;">
+            <h1>salesplatform.org</h1>
+            <p>The sales platform for organizations</p>
+        </div>
     </header>
    
+    <div class="nav-panel" id="navPanel">
+        <button class="close-btn" onclick="toggleNav()">✕</button>
+        <ul>
+            <li><a href="#" class="active">Dashboards</a></li>
+        </ul>
+    </div>
+
     <div class="dashboard">
         <div class="card">
             <h3>Total Deals Closed</h3>
@@ -151,6 +235,12 @@
         <canvas id="salesChart"></canvas>
     </div>
     <script>
+        // Toggle navigation panel
+        function toggleNav() {
+            const navPanel = document.getElementById('navPanel');
+            navPanel.classList.toggle('open');
+        }
+
         // Load saved data on page load
         function loadData() {
             const savedDeals = localStorage.getItem('dealsClosed') || 5;
@@ -162,7 +252,7 @@
             document.getElementById('inputDeals').value = savedDeals;
             document.getElementById('inputRevenue').value = savedRevenue;
             document.getElementById('inputProspects').value = savedProspects;
-            updateChart([2, 3, 1, 4, Number(savedDeals)]); // Simple update to last bar
+            updateChart([2, 3, 1, 4, Number(savedDeals)]);
         }
 
         // Update dashboard and save to localStorage
