@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>salesplatform.org - The sales platform for organizations</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -102,80 +101,50 @@
             color: #fff;
             font-weight: bold;
         }
-        .dashboard {
+        .tiles {
             display: flex;
             justify-content: space-around;
             margin: 40px 20px;
             flex-wrap: wrap;
         }
-        .card {
+        .tile {
             background: #333;
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             text-align: center;
-            width: 200px;
-            margin: 10px;
+            width: 250px;
+            margin: 20px;
             transition: transform 0.2s;
         }
-        .card:hover {
+        .tile:hover {
             transform: translateY(-2px);
         }
-        .card h3 {
-            font-size: 1em;
+        .tile h3 {
+            font-size: 1.5em;
             margin: 0 0 10px;
+            color: #fff;
+        }
+        .tile p {
+            font-size: 1em;
+            margin: 0 0 20px;
             color: #ccc;
         }
-        .metric {
-            font-size: 2em;
-            font-weight: bold;
-        }
-        #chartContainer {
-            width: 90%;
-            max-width: 800px;
-            margin: 40px auto;
-            background: #333;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        canvas {
-            max-height: 400px;
-        }
-        .data-form {
-            background: #333;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            margin: 20px auto;
-            max-width: 600px;
-            text-align: center;
-        }
-        .data-form input {
-            background: #1a1a1a;
-            border: 1px solid #555;
-            color: #fff;
-            padding: 10px;
-            margin: 5px;
-            border-radius: 6px;
-            width: 100px;
-        }
-        .data-form button {
+        .tile button {
             background: #666;
             color: #fff;
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
-            margin: 10px;
             transition: background-color 0.2s;
         }
-        .data-form button:hover {
+        .tile button:hover {
             background: #888;
         }
         @media (max-width: 768px) {
-            .dashboard { justify-content: center; }
-            .card { width: 100%; max-width: 300px; }
+            .tiles { justify-content: center; }
+            .tile { width: 100%; max-width: 300px; }
             header h1 { font-size: 2em; }
             .nav-panel { width: 200px; left: -200px; }
         }
@@ -191,47 +160,41 @@
     <div class="nav-panel" id="navPanel">
         <button class="close-btn" onclick="toggleNav()">✕</button>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a href="/" class="active">Home</a></li>
             <li><a href="#">Assistant</a></li>
-            <li><a href="#" class="active">Dashboards</a></li>
+            <li><a href="/dashboards.html">Dashboards</a></li>
             <li><a href="#">Prospects</a></li>
             <li><a href="#">Emails</a></li>
             <li><a href="#">Insights</a></li>
         </ul>
     </div>
 
-    <div class="dashboard">
-        <div class="card">
-            <h3>Total Deals Closed</h3>
-            <div class="metric" id="dealsClosed">5</div>
+    <div class="tiles">
+        <div class="tile">
+            <h3>Assistant</h3>
+            <p>Get AI-powered sales coaching and advice from Grok.</p>
+            <button onclick="alert('Coming soon!')">Explore</button>
         </div>
-        <div class="card">
-            <h3>Monthly Revenue</h3>
-            <div class="metric" id="monthlyRevenue">$10,000</div>
+        <div class="tile">
+            <h3>Dashboards</h3>
+            <p>Track your sales metrics and performance at a glance.</p>
+            <button onclick="window.location.href='/dashboards.html'">View Dashboards</button>
         </div>
-        <div class="card">
-            <h3>Active Prospects</h3>
-            <div class="metric" id="activeProspects">25</div>
+        <div class="tile">
+            <h3>Prospects</h3>
+            <p>Manage and prioritize your leads with AI insights.</p>
+            <button onclick="alert('Coming soon!')">Explore</button>
         </div>
-    </div>
-
-    <div class="data-form">
-        <h3>Update Your Data</h3>
-        <p>Enter your real numbers below—changes save locally in your browser.</p>
-        <div>
-            <label>Deals Closed: </label>
-            <input type="number" id="inputDeals" value="5" min="0">
-            <label>Revenue: </label>
-            <input type="text" id="inputRevenue" value="10000" placeholder="$ Amount">
-            <label>Prospects: </label>
-            <input type="number" id="inputProspects" value="25" min="0">
+        <div class="tile">
+            <h3>Emails</h3>
+            <p>Draft personalized outreach emails using Grok AI.</p>
+            <button onclick="alert('Coming soon!')">Explore</button>
         </div>
-        <button onclick="updateData()">Update Dashboard</button>
-        <button onclick="resetData()">Reset to Defaults</button>
-    </div>
-
-    <div id="chartContainer">
-        <canvas id="salesChart"></canvas>
+        <div class="tile">
+            <h3>Insights</h3>
+            <p>Unlock data-driven sales strategies and predictions.</p>
+            <button onclick="alert('Coming soon!')">Explore</button>
+        </div>
     </div>
 
     <script>
@@ -239,69 +202,6 @@
         function toggleNav() {
             document.getElementById('navPanel').classList.toggle('open');
         }
-
-        // Chart initialization
-        let salesChart;
-        function updateChart(data) {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            if (salesChart) salesChart.destroy();
-            salesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'Deals Closed',
-                        data,
-                        backgroundColor: '#666'
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true, ticks: { color: '#fff' } },
-                        x: { ticks: { color: '#fff' } }
-                    },
-                    plugins: {
-                        legend: { labels: { color: '#fff' } }
-                    }
-                }
-            });
-        }
-
-        // Data management
-        function loadData() {
-            const savedDeals = localStorage.getItem('dealsClosed') || 5;
-            const savedRevenue = localStorage.getItem('monthlyRevenue') || '10000';
-            const savedProspects = localStorage.getItem('activeProspects') || 25;
-            document.getElementById('dealsClosed').textContent = savedDeals;
-            document.getElementById('monthlyRevenue').textContent = '$' + Number(savedRevenue).toLocaleString();
-            document.getElementById('activeProspects').textContent = savedProspects;
-            document.getElementById('inputDeals').value = savedDeals;
-            document.getElementById('inputRevenue').value = savedRevenue;
-            document.getElementById('inputProspects').value = savedProspects;
-            updateChart([2, 3, 1, 4, Number(savedDeals)]);
-        }
-
-        function updateData() {
-            const deals = document.getElementById('inputDeals').value || 0;
-            const revenue = document.getElementById('inputRevenue').value.replace(/[^0-9]/g, '') || 0;
-            const prospects = document.getElementById('inputProspects').value || 0;
-            document.getElementById('dealsClosed').textContent = deals;
-            document.getElementById('monthlyRevenue').textContent = '$' + Number(revenue).toLocaleString();
-            document.getElementById('activeProspects').textContent = prospects;
-            localStorage.setItem('dealsClosed', deals);
-            localStorage.setItem('monthlyRevenue', revenue);
-            localStorage.setItem('activeProspects', prospects);
-            updateChart([2, 3, 1, 4, Number(deals)]);
-            alert('Data updated! Refresh to see it persist.');
-        }
-
-        function resetData() {
-            localStorage.clear();
-            location.reload();
-        }
-
-        // Initialize
-        loadData();
     </script>
 </body>
 </html>
