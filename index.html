@@ -6,50 +6,47 @@
     <title>salesplatform.org - The sales platform for organizations</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            background-color: #000000; 
-            color: #ffffff; 
-            margin: 0; 
-            padding: 0; 
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
             overflow-x: hidden;
         }
-        header { 
-            background: #1a1a1a; 
-            color: #ffffff; 
-            padding: 20px; 
-            border-bottom: 1px solid #333333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
+        header {
+            background: #1a1a1a;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            text-align: center;
         }
-        header h1 { 
-            font-size: 2.5em; 
-            margin: 0; 
-            text-transform: lowercase; 
+        header h1 {
+            font-size: 2.5em;
+            margin: 0 0 10px;
+            text-transform: lowercase;
             letter-spacing: 1px;
         }
-        header p { 
-            font-size: 1.1em; 
-            margin: 0; 
+        header p {
+            font-size: 1.1em;
+            margin: 0;
             opacity: 0.8;
         }
         .nav-toggle {
-            position: absolute;
-            left: 20px;
+            position: fixed;
             top: 20px;
-            background: #666666;
+            left: 20px;
+            background: rgba(102, 102, 102, 0.7);
             border: none;
-            color: #ffffff;
-            padding: 10px 15px;
+            color: #fff;
+            padding: 10px;
             border-radius: 6px;
             cursor: pointer;
-            transition: background 0.2s;
+            z-index: 1100;
+            transition: background-color 0.2s;
         }
         .nav-toggle:hover {
-            background: #888888;
+            background: rgba(136, 136, 136, 0.7);
         }
         .nav-panel {
             position: fixed;
@@ -58,7 +55,7 @@
             width: 250px;
             height: 100%;
             background: #1a1a1a;
-            border-right: 1px solid #333333;
+            border-right: 1px solid #333;
             transition: left 0.3s ease;
             z-index: 1000;
         }
@@ -71,111 +68,110 @@
             right: 20px;
             background: none;
             border: none;
-            color: #cccccc;
+            color: #ccc;
             font-size: 1.5em;
             cursor: pointer;
             transition: color 0.2s;
         }
         .nav-panel .close-btn:hover {
-            color: #ffffff;
+            color: #fff;
         }
         .nav-panel ul {
             list-style: none;
             padding: 20px;
-            margin: 40px 0 0 0;
+            margin: 60px 0 0;
         }
         .nav-panel li {
             margin: 15px 0;
         }
         .nav-panel a {
-            color: #cccccc;
+            color: #ccc;
             text-decoration: none;
             font-size: 1.2em;
             display: block;
             padding: 10px;
             border-radius: 6px;
-            transition: background 0.2s, color 0.2s;
+            transition: background-color 0.2s, color 0.2s;
         }
         .nav-panel a:hover {
-            background: #333333;
-            color: #ffffff;
+            background: #333;
+            color: #fff;
         }
         .nav-panel a.active {
-            background: #666666;
-            color: #ffffff;
+            background: #666;
+            color: #fff;
             font-weight: bold;
         }
-        .dashboard { 
-            display: flex; 
-            justify-content: space-around; 
-            margin: 40px 20px; 
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 20px;
             flex-wrap: wrap;
         }
-        .card { 
-            background: #333333; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3); 
-            text-align: center; 
-            width: 200px; 
+        .card {
+            background: #333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 200px;
             margin: 10px;
             transition: transform 0.2s;
         }
         .card:hover {
             transform: translateY(-2px);
         }
-        .card h3 { 
-            font-size: 1em; 
-            margin: 0 0 10px 0; 
-            color: #cccccc;
+        .card h3 {
+            font-size: 1em;
+            margin: 0 0 10px;
+            color: #ccc;
         }
-        .metric { 
-            font-size: 2em; 
-            font-weight: bold; 
-            color: #ffffff; 
+        .metric {
+            font-size: 2em;
+            font-weight: bold;
         }
-        #chartContainer { 
-            width: 90%; 
-            max-width: 800px; 
-            margin: 40px auto; 
-            background: #333333; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        #chartContainer {
+            width: 90%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: #333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         canvas {
             max-height: 400px;
         }
         .data-form {
-            background: #333333;
+            background: #333;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             margin: 20px auto;
             max-width: 600px;
             text-align: center;
         }
         .data-form input {
             background: #1a1a1a;
-            border: 1px solid #555555;
-            color: #ffffff;
+            border: 1px solid #555;
+            color: #fff;
             padding: 10px;
             margin: 5px;
             border-radius: 6px;
             width: 100px;
         }
         .data-form button {
-            background: #666666;
-            color: #ffffff;
+            background: #666;
+            color: #fff;
             border: none;
             padding: 10px 20px;
             border-radius: 6px;
             cursor: pointer;
             margin: 10px;
-            transition: background 0.2s;
+            transition: background-color 0.2s;
         }
         .data-form button:hover {
-            background: #888888;
+            background: #888;
         }
         @media (max-width: 768px) {
             .dashboard { justify-content: center; }
@@ -186,14 +182,12 @@
     </style>
 </head>
 <body>
+    <button class="nav-toggle" onclick="toggleNav()">☰</button>
     <header>
-        <button class="nav-toggle" onclick="toggleNav()">☰ Menu</button>
-        <div style="text-align: center;">
-            <h1>salesplatform.org</h1>
-            <p>The sales platform for organizations</p>
-        </div>
+        <h1>salesplatform.org</h1>
+        <p>The sales platform for organizations</p>
     </header>
-   
+
     <div class="nav-panel" id="navPanel">
         <button class="close-btn" onclick="toggleNav()">✕</button>
         <ul>
@@ -230,18 +224,45 @@
         <button onclick="updateData()">Update Dashboard</button>
         <button onclick="resetData()">Reset to Defaults</button>
     </div>
-   
+
     <div id="chartContainer">
         <canvas id="salesChart"></canvas>
     </div>
+
     <script>
-        // Toggle navigation panel
+        // Navigation toggle
         function toggleNav() {
-            const navPanel = document.getElementById('navPanel');
-            navPanel.classList.toggle('open');
+            document.getElementById('navPanel').classList.toggle('open');
         }
 
-        // Load saved data on page load
+        // Chart initialization
+        let salesChart;
+        function updateChart(data) {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            if (salesChart) salesChart.destroy();
+            salesChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+                    datasets: [{
+                        label: 'Deals Closed',
+                        data,
+                        backgroundColor: '#666'
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true, ticks: { color: '#fff' } },
+                        x: { ticks: { color: '#fff' } }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#fff' } }
+                    }
+                }
+            });
+        }
+
+        // Data management
         function loadData() {
             const savedDeals = localStorage.getItem('dealsClosed') || 5;
             const savedRevenue = localStorage.getItem('monthlyRevenue') || '10000';
@@ -255,7 +276,6 @@
             updateChart([2, 3, 1, 4, Number(savedDeals)]);
         }
 
-        // Update dashboard and save to localStorage
         function updateData() {
             const deals = document.getElementById('inputDeals').value || 0;
             const revenue = document.getElementById('inputRevenue').value.replace(/[^0-9]/g, '') || 0;
@@ -267,50 +287,15 @@
             localStorage.setItem('monthlyRevenue', revenue);
             localStorage.setItem('activeProspects', prospects);
             updateChart([2, 3, 1, 4, Number(deals)]);
-            alert('Data updated! Refresh the page to see it persist.');
+            alert('Data updated! Refresh to see it persist.');
         }
 
-        // Reset to defaults
         function resetData() {
-            localStorage.removeItem('dealsClosed');
-            localStorage.removeItem('monthlyRevenue');
-            localStorage.removeItem('activeProspects');
+            localStorage.clear();
             location.reload();
         }
 
-        // Update chart
-        let salesChart;
-        function updateChart(data) {
-            const ctx = document.getElementById('salesChart').getContext('2d');
-            if (salesChart) salesChart.destroy();
-            salesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-                    datasets: [{
-                        label: 'Deals Closed',
-                        data: data,
-                        backgroundColor: '#666666'
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: { beginAtZero: true }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: { color: '#ffffff' }
-                        }
-                    },
-                    scales: {
-                        x: { ticks: { color: '#ffffff' } },
-                        y: { ticks: { color: '#ffffff' } }
-                    }
-                }
-            });
-        }
-
-        // Initialize on load
+        // Initialize
         loadData();
     </script>
 </body>
