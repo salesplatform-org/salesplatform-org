@@ -187,7 +187,6 @@
         <h1>salesplatform.org</h1>
         <p>The sales platform for organizations</p>
     </header>
-
     <div class="nav-panel" id="navPanel">
         <button class="close-btn" onclick="toggleNav()">✕</button>
         <ul>
@@ -199,7 +198,6 @@
             <li><a href="#">Insights</a></li>
         </ul>
     </div>
-
     <div class="dashboard">
         <div class="card">
             <h3>Total Deals Closed</h3>
@@ -214,7 +212,6 @@
             <div class="metric" id="activeProspects">25</div>
         </div>
     </div>
-
     <div class="data-form">
         <h3>Update Your Data</h3>
         <p>Enter your real numbers below—changes save locally in your browser.</p>
@@ -229,17 +226,14 @@
         <button onclick="updateData()">Update Dashboard</button>
         <button onclick="resetData()">Reset to Defaults</button>
     </div>
-
     <div id="chartContainer">
         <canvas id="salesChart"></canvas>
     </div>
-
     <script>
         // Navigation toggle
         function toggleNav() {
             document.getElementById('navPanel').classList.toggle('open');
         }
-
         // Chart initialization
         let salesChart;
         function updateChart(data) {
@@ -266,7 +260,6 @@
                 }
             });
         }
-
         // Data management
         function loadData() {
             const savedDeals = localStorage.getItem('dealsClosed') || 5;
@@ -280,7 +273,6 @@
             document.getElementById('inputProspects').value = savedProspects;
             updateChart([2, 3, 1, 4, Number(savedDeals)]);
         }
-
         function updateData() {
             const deals = document.getElementById('inputDeals').value || 0;
             const revenue = document.getElementById('inputRevenue').value.replace(/[^0-9]/g, '') || 0;
@@ -294,14 +286,16 @@
             updateChart([2, 3, 1, 4, Number(deals)]);
             alert('Data updated! Refresh to see it persist.');
         }
-
         function resetData() {
             localStorage.clear();
             location.reload();
         }
-
         // Initialize
         loadData();
+        // Auth check
+        if (localStorage.getItem('authenticated') !== 'true') {
+            window.location.href = '/';
+        }
     </script>
 </body>
 </html>
