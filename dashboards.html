@@ -229,7 +229,12 @@
     <div id="chartContainer">
         <canvas id="salesChart"></canvas>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        const supabaseUrl = 'https://bszmuxltttcjcadduham.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
         // Navigation toggle
         function toggleNav() {
             document.getElementById('navPanel').classList.toggle('open');
@@ -290,12 +295,14 @@
             localStorage.clear();
             location.reload();
         }
-        // Initialize
-        loadData();
-        // Auth check
-        if (localStorage.getItem('authenticated') !== 'true') {
-            window.location.href = '/';
-        }
+        // Auth check and initialize
+        supabase.auth.getSession().then(({ data, error }) => {
+            if (error || !data.session) {
+                window.location.href = '/';
+            } else {
+                loadData();
+            }
+        });
     </script>
 </body>
 </html>
