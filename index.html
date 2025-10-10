@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>salesplatform.org - The sales platform for organizations</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>salesplatform.org</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; margin: 0; padding: 0; line-height: 1.6; }
         header { background: #1a1a1a; padding: 40px 20px; text-align: center; border-bottom: 1px solid #333; }
@@ -15,16 +14,15 @@
         .section ul { color: #ccc; }
         .login-form { text-align: center; background: #333; padding: 20px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); max-width: 400px; margin: 40px auto; }
         .login-form input { background: #1a1a1a; border: 1px solid #555; color: #fff; padding: 10px; margin: 10px; border-radius: 6px; width: 200px; }
-        .login-form button { background: #666; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; transition: background 0.2s; margin: 5px; }
+        .login-form button { background: #666; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; transition: background 0.2s; }
         .login-form button:hover { background: #888; }
-        .login-form p { color: #ff5555; }
         @media (max-width: 768px) { header h1 { font-size: 2em; } }
     </style>
 </head>
 <body>
     <header>
         <h1>salesplatform.org</h1>
-        <p>The sales platform for organizations</p>
+        <p>The sales platform for organizations.</p>
     </header>
     <div class="section">
         <h2>Product Overview</h2>
@@ -35,50 +33,25 @@
         <ul>
             <li>Innovation: AI breakthroughs via Grok for maximally efficient sales.</li>
             <li>Affordability: Fair pricing (Grok usage costs + 1% on closed deals).</li>
-            <li>Personalized Support: Account Manager in USA.</li>
+            <li>Personalized Support: Account Manger in USA.</li>
             <li>User-First: Target small biz first, scale with you.</li>
         </ul>
     </div>
     <div class="login-form">
         <h3>Login to Access Platform</h3>
-        <input type="email" id="email" placeholder="Enter email">
         <input type="password" id="password" placeholder="Enter password">
-        <button onclick="signUp()">Sign Up</button>
+        <br>
         <button onclick="login()">Login</button>
         <p id="message"></p>
     </div>
     <script>
-        const supabase = createClient('https://bszmuxltttcjcadduham.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc');
-        async function signUp() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if (!email || !password) {
-                document.getElementById('message').textContent = 'Please enter both email and password.';
-                return;
-            }
-            try {
-                const { data, error } = await supabase.auth.signUp({ email, password });
-                if (error) throw error;
-                document.getElementById('message').textContent = 'Sign-up successful! Please log in.';
-            } catch (error) {
-                document.getElementById('message').textContent = error.message;
-                console.error('Sign-up error:', error);
-            }
-        }
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if (!email || !password) {
-                document.getElementById('message').textContent = 'Please enter both email and password.';
-                return;
-            }
-            try {
-                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) throw error;
+        function login() {
+            const pw = document.getElementById('password').value;
+            if (pw === 'salesplatform') { // Demo password—change later
+                localStorage.setItem('authenticated', 'true');
                 window.location.href = '/dashboards.html';
-            } catch (error) {
-                document.getElementById('message').textContent = error.message;
-                console.error('Login error:', error);
+            } else {
+                document.getElementById('message').textContent = 'Invalid password.';
             }
         }
     </script>
