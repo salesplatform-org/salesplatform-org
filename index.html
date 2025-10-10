@@ -39,19 +39,27 @@
     </div>
     <div class="login-form">
         <h3>Login to Access Platform</h3>
+        <input type="email" id="email" placeholder="Enter email">
         <input type="password" id="password" placeholder="Enter password">
         <br>
         <button onclick="login()">Login</button>
         <p id="message"></p>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        function login() {
+        const supabaseUrl = 'https://bszmuxltttcjcadduham.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        
+        async function login() {
+            const email = document.getElementById('email').value;
             const pw = document.getElementById('password').value;
-            if (pw === 'salesplatform') { // Demo password—change later
-                localStorage.setItem('authenticated', 'true');
-                window.location.href = '/dashboards.html';
+            const { data, error } = await supabase.auth.signInWithPassword({ email, password: pw });
+            if (error) {
+                document.getElementById('message').textContent = error.message;
+                document.getElementById('message').style.color = 'red';
             } else {
-                document.getElementById('message').textContent = 'Invalid password.';
+                window.location.href = '/dashboards.html';
             }
         }
     </script>
