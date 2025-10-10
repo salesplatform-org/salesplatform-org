@@ -48,7 +48,7 @@
         <p id="message"></p>
     </div>
     <script>
-        const supabase = Supabase.createClient('https://bszmuxltttcjcadduham.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc');
+        const supabase = supabase.createClient('https://bszmuxltttcjcadduham.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc');
         async function signUp() {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
