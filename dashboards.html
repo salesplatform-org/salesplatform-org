@@ -173,6 +173,43 @@
         .data-form button:hover {
             background: #888;
         }
+        .insights-form {
+            background: #333;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            margin: 20px auto;
+            max-width: 600px;
+            text-align: center;
+        }
+        .insights-form input {
+            background: #1a1a1a;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 6px;
+            width: 80%;
+        }
+        .insights-form button {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .insights-form button:hover {
+            background: #888;
+        }
+        #insightsResponse {
+            margin-top: 20px;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            white-space: pre-wrap;
+        }
         @media (max-width: 768px) {
             .dashboard { justify-content: center; }
             .card { width: 100%; max-width: 300px; }
@@ -228,6 +265,13 @@
     </div>
     <div id="chartContainer">
         <canvas id="salesChart"></canvas>
+    </div>
+    <div class="insights-form">
+        <h3>Get AI Insights</h3>
+        <p>Ask Grok for sales strategies based on your data (powered by Grok 4 Fast).</p>
+        <input type="text" id="insightsQuery" placeholder="e.g., Optimize my sales pipeline">
+        <button onclick="getInsights()">Generate Insights</button>
+        <div id="insightsResponse"></div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -295,6 +339,38 @@
         function resetData() {
             localStorage.clear();
             location.reload();
+        }
+        // Grok API integration
+        const grokApiKey = 'xai-JMEhilUoX3bbVFxaa5B6gMiJB6gXzaxAe21YmwxVfsKupsITcUigSHud1hxM2bX2WeZQYn3tL98DmjQM';
+        async function getInsights() {
+            try {
+                const query = document.getElementById('insightsQuery').value;
+                const deals = document.getElementById('dealsClosed').textContent;
+                const revenue = document.getElementById('monthlyRevenue').textContent.replace('$', '').replace(',', '');
+                const prospects = document.getElementById('activeProspects').textContent;
+                const prompt = `Analyze these sales metrics: ${deals} deals closed, $${revenue} revenue, ${prospects} prospects. ${query}. Provide concise strategies.`;
+                
+                const response = await fetch('https://api.x.ai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${grokApiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'grok-4-fast',
+                        messages: [{ role: 'user', content: prompt }],
+                        temperature: 0.7,
+                        max_tokens: 300
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API error');
+                const data = await response.json();
+                document.getElementById('insightsResponse').textContent = data.choices[0].message.content;
+            } catch (error) {
+                document.getElementById('insightsResponse').textContent = 'Error: Check console and API key.';
+                console.error('Grok API error:', error);
+            }
         }
         // Auth check and initialize
         try {
