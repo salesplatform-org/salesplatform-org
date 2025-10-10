@@ -49,17 +49,20 @@
     <script>
         const supabaseUrl = 'https://bszmuxltttcjcadduham.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJzem11eGx0dHRjamNhZGR1aGFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5NzczMDEsImV4cCI6MjA3NTU1MzMwMX0.MIqDfxWt7dsCAs2GrWSTmzSigcp3bhPLY167AH3zPJc';
-        const supabase = createClient(supabaseUrl, supabaseKey);
+        const { createClient } = supabase;
+        const supa = createClient(supabaseUrl, supabaseKey);
         
         async function login() {
-            const email = document.getElementById('email').value;
-            const pw = document.getElementById('password').value;
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password: pw });
-            if (error) {
-                document.getElementById('message').textContent = error.message;
-                document.getElementById('message').style.color = 'red';
-            } else {
+            try {
+                const email = document.getElementById('email').value;
+                const pw = document.getElementById('password').value;
+                const { data, error } = await supa.auth.signInWithPassword({ email, password: pw });
+                if (error) throw error;
                 window.location.href = '/dashboards.html';
+            } catch (error) {
+                document.getElementById('message').textContent = error.message || 'Login failed—check console for details.';
+                document.getElementById('message').style.color = 'red';
+                console.error('Login error:', error);
             }
         }
     </script>
